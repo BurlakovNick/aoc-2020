@@ -1,7 +1,7 @@
 def is_correct_1(str):
     limits, char, password = str.split(' ')
     lower_bound, upper_bound = [int(x) for x in limits.split('-')]
-    cnt = password.count(char[0])
+    cnt = password.count_trees(char[0])
     return lower_bound <= cnt <= upper_bound
 
 
