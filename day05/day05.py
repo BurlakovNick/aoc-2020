@@ -1,12 +1,10 @@
 def get_seat_id(code):
     row = 0
     for i in range(0, 7):
-        bit = code[i] == 'B'
-        row = (row << 1) + bit
+        row = (row << 1) + (code[i] == 'B')
     col = 0
     for i in range(7, 10):
-        bit = code[i] == 'R'
-        col = (col << 1) + bit
+        col = (col << 1) + (code[i] == 'R')
     return row * 8 + col
 
 
