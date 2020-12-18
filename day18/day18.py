@@ -28,7 +28,6 @@ def eval(line, calc):
             stack.append(calc(expression))
         else:
             stack.append(token)
-    print('stack[0]')
     return stack[0]
 
 
