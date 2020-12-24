@@ -1,21 +1,23 @@
+import re
+
+
+class Point(tuple):
+    def __add__(self, other):
+        return Point(x + y for x, y in zip(self, other))
+
+
 moves = {'e': (0, 1), 'se': (1, 1), 'sw': (1, 0), 'w': (0, -1), 'nw': (-1, -1), 'ne': (-1, 0)}
 
 
-def move(line):
-    pos = 0
-    x, y = 0, 0
-    while pos < len(line):
-        for ch, (dx, dy) in moves.items():
-            if line[pos:pos+len(ch)] == ch:
-                x, y = x + dx, y + dy
-                pos += len(ch)
-                break
-    return x, y
+def go(line):
+    point = Point((0, 0))
+    for token in re.findall('|'.join(moves.keys()), line):
+        point = point + moves[token]
+    return point
 
 
 def get_neighbors(point):
-    x, y = point
-    return ((x + dx, y + dy) for (dx, dy) in moves.values())
+    return (point + move for move in moves.values())
 
 
 def count_neighbors(point, active):
@@ -34,13 +36,15 @@ def iterate(active):
 def solve():
     with open('input.txt', 'r') as inputFile:
         input = inputFile.read()
+
+    points = [go(line) for line in input.split('\n')]
+
     black = set()
-    for line in input.split('\n'):
-        x, y = move(line)
-        if (x, y) in black:
-            black.remove((x, y))
+    for point in points:
+        if point in black:
+            black.remove(point)
         else:
-            black.add((x, y))
+            black.add(point)
     print(len(black))
 
     for _ in range(100):
